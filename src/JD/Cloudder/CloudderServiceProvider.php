@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace JD\Cloudder;
 
@@ -7,7 +7,6 @@ use Cloudinary;
 
 class CloudderServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -23,7 +22,7 @@ class CloudderServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../../../config/cloudder.php' => config_path('cloudder.php')
+            __DIR__ . '/../../../config/cloudder.php' => config_path('cloudder.php')
         ]);
 
         $this->app['JD\Cloudder\Cloudder'] = function ($app) {

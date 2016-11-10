@@ -9,10 +9,10 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->config = m::mock('Illuminate\Config\Repository');
+        $this->config     = m::mock('Illuminate\Config\Repository');
         $this->cloudinary = m::mock('Cloudinary');
-        $this->uploader = m::mock('Cloudinary\Uploader');
-        $this->api = m::mock('Cloudinary\Api');
+        $this->uploader   = m::mock('Cloudinary\Uploader');
+        $this->api        = m::mock('Cloudinary\Api');
 
         $this->config->shouldReceive('get')->once()->with('cloudder.cloudName')->andReturn('cloudName');
         $this->config->shouldReceive('get')->once()->with('cloudder.apiKey')->andReturn('apiKey');
@@ -20,7 +20,8 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
 
         $this->cloudinary->shouldReceive('config')->once();
 
-        $this->cloudinary_wrapper = new CloudinaryWrapper($this->config, $this->cloudinary, $this->uploader, $this->api);
+        $this->cloudinary_wrapper = new CloudinaryWrapper($this->config, $this->cloudinary, $this->uploader,
+            $this->api);
     }
 
     public function tearDown()
@@ -32,7 +33,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     public function it_should_set_uploaded_result_when_uploading_picture()
     {
         // given
-        $filename = 'filename';
+        $filename         = 'filename';
         $defaults_options = [
             'public_id' => null,
             'tags'      => array()
@@ -40,7 +41,8 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
 
         $expected_result = ['public_id' => '123456789'];
 
-        $this->uploader->shouldReceive('upload')->once()->with($filename, $defaults_options)->andReturn($expected_result);
+        $this->uploader->shouldReceive('upload')->once()->with($filename,
+            $defaults_options)->andReturn($expected_result);
 
         // when
         $this->cloudinary_wrapper->upload($filename);
@@ -54,7 +56,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     public function it_should_set_uploaded_result_when_uploading_private_picture()
     {
         // given
-        $filename = 'filename';
+        $filename         = 'filename';
         $defaults_options = [
             'public_id' => null,
             'tags'      => array(),
@@ -63,7 +65,8 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
 
         $expected_result = ['public_id' => '123456789'];
 
-        $this->uploader->shouldReceive('upload')->once()->with($filename, $defaults_options)->andReturn($expected_result);
+        $this->uploader->shouldReceive('upload')->once()->with($filename,
+            $defaults_options)->andReturn($expected_result);
 
         // when
         $this->cloudinary_wrapper->upload($filename, null, ['type' => 'private']);
@@ -124,7 +127,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     {
         // given
         $from = 'from';
-        $to = 'to';
+        $to   = 'to';
 
         $this->uploader->shouldReceive('rename')->with($from, $to, array())->once();
 
@@ -170,7 +173,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     public function it_should_call_api_add_tag_when_calling_add_tag()
     {
         $pids = ['pid1', 'pid2'];
-        $tag = 'tag';
+        $tag  = 'tag';
 
         $this->uploader->shouldReceive('add_tag')->once()->with($tag, $pids, array());
 
@@ -181,7 +184,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     public function it_should_call_api_remove_tag_when_calling_add_tag()
     {
         $pids = ['pid1', 'pid2'];
-        $tag = 'tag';
+        $tag  = 'tag';
 
         $this->uploader->shouldReceive('remove_tag')->once()->with($tag, $pids, array());
 
@@ -192,7 +195,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     public function it_should_call_api_rename_tag_when_calling_add_tag()
     {
         $pids = ['pid1', 'pid2'];
-        $tag = 'tag';
+        $tag  = 'tag';
 
         $this->uploader->shouldReceive('replace_tag')->once()->with($tag, $pids, array());
 
@@ -256,16 +259,17 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     public function it_should_set_uploaded_result_when_uploading_video()
     {
         // given
-        $filename = 'filename';
+        $filename         = 'filename';
         $defaults_options = [
-            'public_id' => null,
-            'tags'      => array(),
+            'public_id'     => null,
+            'tags'          => array(),
             'resource_type' => 'video'
         ];
 
         $expected_result = ['public_id' => '123456789'];
 
-        $this->uploader->shouldReceive('upload')->once()->with($filename, $defaults_options)->andReturn($expected_result);
+        $this->uploader->shouldReceive('upload')->once()->with($filename,
+            $defaults_options)->andReturn($expected_result);
 
         // when
         $this->cloudinary_wrapper->uploadVideo($filename);
@@ -280,7 +284,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     {
         // given
         $this->uploader->shouldReceive('create_archive')->once()->with(
-          ['tag' => 'kitten', 'mode' => 'create', 'target_public_id' => null]
+            ['tag' => 'kitten', 'mode' => 'create', 'target_public_id' => null]
         );
 
         // when
@@ -292,7 +296,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     {
         // given
         $this->uploader->shouldReceive('create_archive')->once()->with(
-          ['tag' => 'kitten', 'mode' => 'create', 'target_public_id' => 'kitten_archive']
+            ['tag' => 'kitten', 'mode' => 'create', 'target_public_id' => 'kitten_archive']
         );
 
         // when
@@ -304,7 +308,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     {
         // given
         $this->cloudinary->shouldReceive('download_archive_url')->once()->with(
-          ['tag' => 'kitten', 'target_public_id' => null]
+            ['tag' => 'kitten', 'target_public_id' => null]
         );
 
         // when
@@ -316,7 +320,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     {
         // given
         $this->cloudinary->shouldReceive('download_archive_url')->once()->with(
-          ['tag' => 'kitten', 'target_public_id' => 'kitten_archive']
+            ['tag' => 'kitten', 'target_public_id' => 'kitten_archive']
         );
 
         // when
@@ -360,7 +364,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_should_show_response_when_calling_resources_by_moderation()
     {
-        $kind = 'manual';
+        $kind   = 'manual';
         $status = 'pending';
 
         // given
@@ -395,7 +399,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_should_update_a_resource_when_calling_update()
     {
-        $pid = 'pid';
+        $pid     = 'pid';
         $options = ['tags' => 'tag1'];
 
         // given
@@ -443,7 +447,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     public function it_should_update_a_transformation_when_calling_update_transformation()
     {
         $transformation = "c_fill,h_100,w_150";
-        $updates = array("allowed_for_strict" => 1);
+        $updates        = array("allowed_for_strict" => 1);
 
         // given
         $this->api->shouldReceive('update_transformation')->once()->with($transformation, $updates, array());
@@ -455,7 +459,7 @@ class CloudinaryWrapperTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function it_should_create_a_transformation_when_calling_create_transformation()
     {
-        $name = "name";
+        $name       = "name";
         $definition = "c_fill,h_100,w_150";
 
         // given
